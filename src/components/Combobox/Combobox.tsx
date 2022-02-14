@@ -20,8 +20,8 @@ export interface ComboboxProps {
   children?: React.ReactElement<ListboxProps> | null;
   activator: React.ReactElement<TextFieldProps>;
   allowMultiple?: boolean;
-  onScrolledToBottom?(): void;
   preferredPosition?: PopoverProps['preferredPosition'];
+  onScrolledToBottom?(): void;
 }
 
 export function Combobox({
@@ -33,6 +33,7 @@ export function Combobox({
 }: ComboboxProps) {
   const [popoverActive, setPopoverActive] = useState(false);
   const [activeOptionId, setActiveOptionId] = useState<string>();
+  const [activeOptionValue, setActiveOptionValue] = useState<string>();
   const [textFieldLabelId, setTextFieldLabelId] = useState<string>();
   const [listboxId, setListboxId] = useState<string>();
   const [textFieldFocused, setTextFieldFocused] = useState<boolean>(false);
@@ -72,8 +73,16 @@ export function Combobox({
     }
   }, [popoverActive]);
 
+  const handleNavigateList = useCallback(
+    (activeOptionValue: string) => {
+      setActiveOptionValue(activeOptionValue);
+    },
+    [setActiveOptionValue],
+  );
+
   const textFieldContextValue: ComboboxTextFieldType = useMemo(
     () => ({
+      activeOptionValue,
       activeOptionId,
       expanded: popoverActive,
       listboxId,
@@ -104,21 +113,25 @@ export function Combobox({
 
   const listboxContextValue: ComboboxListboxType = useMemo(
     () => ({
+      activeOptionValue,
       setActiveOptionId,
       setListboxId,
       listboxId,
       textFieldLabelId,
       onOptionSelected,
       textFieldFocused,
+      onActiveOptionChange: handleNavigateList,
       onKeyToBottom: onScrolledToBottom,
     }),
     [
+      activeOptionValue,
       setActiveOptionId,
       setListboxId,
       listboxId,
       textFieldLabelId,
       onOptionSelected,
       textFieldFocused,
+      handleNavigateList,
       onScrolledToBottom,
     ],
   );

@@ -78,6 +78,7 @@ export function Listbox({
     listboxId,
     textFieldLabelId,
     onOptionSelected,
+    onActiveOptionChange,
     onKeyToBottom,
     textFieldFocused,
   } = useComboboxListbox();
@@ -157,8 +158,14 @@ export function Listbox({
         onOptionSelected();
       }
       if (onSelect) onSelect(option.value);
+      if (onActiveOptionChange) onActiveOptionChange(option.value);
     },
-    [handleChangeActiveOption, onSelect, onOptionSelected],
+    [
+      onActiveOptionChange,
+      handleChangeActiveOption,
+      onSelect,
+      onOptionSelected,
+    ],
   );
 
   const listboxContext = useMemo(
