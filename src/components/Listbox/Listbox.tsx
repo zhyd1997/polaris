@@ -78,7 +78,7 @@ export function Listbox({
     listboxId,
     textFieldLabelId,
     onOptionSelected,
-    onActiveOptionChange,
+    setActiveOptionValue,
     onKeyToBottom,
     textFieldFocused,
   } = useComboboxListbox();
@@ -90,11 +90,6 @@ export function Listbox({
       setListboxId(listId);
     }
   }, [setListboxId, listboxId, listId]);
-
-  useEffect(() => {
-    if (!currentActiveOption || !setActiveOptionId) return;
-    setActiveOptionId(currentActiveOption.domId);
-  }, [currentActiveOption, setActiveOptionId]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleScrollIntoView = useCallback(
@@ -158,10 +153,10 @@ export function Listbox({
         onOptionSelected();
       }
       if (onSelect) onSelect(option.value);
-      if (onActiveOptionChange) onActiveOptionChange(option.value);
+      if (setActiveOptionValue) setActiveOptionValue(option.value);
     },
     [
-      onActiveOptionChange,
+      setActiveOptionValue,
       handleChangeActiveOption,
       onSelect,
       onOptionSelected,
@@ -176,45 +171,83 @@ export function Listbox({
     [onOptionSelect],
   );
 
-  function findNextValidOption(type: ArrowKeys) {
-    const isUp = type === 'up';
-    const navItems = getNavigableOptions();
-    let nextElement: HTMLElement | null | undefined =
-      currentActiveOption?.element;
-    let count = -1;
+  const findNextValidOption = useCallback(
+    (type?: ArrowKeys) => {
+      const isUp = type === 'up';
+      const navItems = getNavigableOptions();
+      const firstSelectedItemIndex = navItems.findIndex((item) => {
+        return item.getAttribute('aria-selected');
+      });
 
-    while (count++ < navItems.length) {
-      let nextIndex;
-      if (nextElement) {
-        const currentId = nextElement?.id;
-        const currentIndex = navItems.findIndex(
-          (currentNavItem) => currentNavItem.id === currentId,
-        );
+      let nextElement: HTMLElement | null | undefined =
+        currentActiveOption?.element;
+      let count = -1;
 
-        let increment = isUp ? -1 : 1;
-        if (currentIndex === 0 && isUp) {
-          increment = navItems.length - 1;
-        } else if (currentIndex === navItems.length - 1 && !isUp) {
-          increment = -(navItems.length - 1);
+      while (count++ < navItems.length) {
+        let nextIndex;
+        if (nextElement) {
+          const currentId = nextElement?.id;
+          const currentIndex = navItems.findIndex(
+            (currentNavItem) => currentNavItem.id === currentId,
+          );
+
+          let increment = isUp ? -1 : 1;
+          if (currentIndex === 0 && isUp) {
+            increment = navItems.length - 1;
+          } else if (currentIndex === navItems.length - 1 && !isUp) {
+            increment = -(navItems.length - 1);
+          }
+
+          nextIndex = currentIndex + increment;
+          nextElement = navItems[nextIndex];
+        } else if (type !== undefined) {
+          nextIndex = isUp ? navItems.length - 1 : 0;
+          nextElement = navItems[nextIndex];
+        } else {
+          nextIndex = firstSelectedItemIndex ? firstSelectedItemIndex : 0;
+          nextElement = navItems[nextIndex];
         }
 
-        nextIndex = currentIndex + increment;
-        nextElement = navItems[nextIndex];
-      } else {
-        nextIndex = isUp ? navItems.length - 1 : 0;
-        nextElement = navItems[nextIndex];
+        if (nextElement?.getAttribute('aria-disabled') === 'true') continue;
+
+        if (nextIndex === navItems.length - 1 && onKeyToBottom) {
+          onKeyToBottom();
+        }
+        return nextElement;
       }
 
-      if (nextElement?.getAttribute('aria-disabled') === 'true') continue;
+      return null;
+    },
+    [currentActiveOption, onKeyToBottom],
+  );
 
-      if (nextIndex === navItems.length - 1 && onKeyToBottom) {
-        onKeyToBottom();
-      }
-      return nextElement;
+  const setInitialActiveOption = useCallback(() => {
+    const initialActiveOption = findNextValidOption();
+    if (initialActiveOption) {
+      handleChangeActiveOption({
+        domId: initialActiveOption.id,
+        value:
+          initialActiveOption.getAttribute(LISTBOX_OPTION_VALUE_ATTRIBUTE) ||
+          '',
+        element: initialActiveOption,
+        disabled: initialActiveOption.getAttribute('aria-disabled') === 'true',
+      });
     }
+  }, [findNextValidOption, handleChangeActiveOption]);
 
-    return null;
-  }
+  useEffect(() => {
+    if (currentActiveOption) {
+      setActiveOptionId!(currentActiveOption.domId);
+      setActiveOptionValue!(currentActiveOption.value);
+    } else {
+      setInitialActiveOption();
+    }
+  }, [
+    currentActiveOption,
+    setActiveOptionId,
+    setInitialActiveOption,
+    setActiveOptionValue,
+  ]);
 
   function handleArrow(type: ArrowKeys, evt: KeyboardEvent) {
     evt.preventDefault();

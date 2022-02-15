@@ -70,15 +70,9 @@ export function Combobox({
     if (popoverActive) {
       setPopoverActive(false);
       setActiveOptionId(undefined);
+      setActiveOptionValue('');
     }
   }, [popoverActive]);
-
-  const handleNavigateList = useCallback(
-    (activeOptionValue: string) => {
-      setActiveOptionValue(activeOptionValue);
-    },
-    [setActiveOptionValue],
-  );
 
   const textFieldContextValue: ComboboxTextFieldType = useMemo(
     () => ({
@@ -93,6 +87,7 @@ export function Combobox({
       onTextFieldBlur: handleBlur,
     }),
     [
+      activeOptionValue,
       activeOptionId,
       popoverActive,
       listboxId,
@@ -114,24 +109,24 @@ export function Combobox({
   const listboxContextValue: ComboboxListboxType = useMemo(
     () => ({
       activeOptionValue,
-      setActiveOptionId,
-      setListboxId,
       listboxId,
       textFieldLabelId,
-      onOptionSelected,
       textFieldFocused,
-      onActiveOptionChange: handleNavigateList,
+      setActiveOptionId,
+      setListboxId,
+      setActiveOptionValue,
+      onOptionSelected,
       onKeyToBottom: onScrolledToBottom,
     }),
     [
       activeOptionValue,
-      setActiveOptionId,
-      setListboxId,
       listboxId,
       textFieldLabelId,
-      onOptionSelected,
       textFieldFocused,
-      handleNavigateList,
+      setActiveOptionId,
+      setListboxId,
+      setActiveOptionValue,
+      onOptionSelected,
       onScrolledToBottom,
     ],
   );
