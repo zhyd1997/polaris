@@ -397,6 +397,8 @@ export {
 
 export type {ResourceListSelectedItems} from './utilities/resource-list';
 
+export {useComboboxListbox} from './utilities/combobox';
+
 export {
   toCssCustomPropertySyntax as UNSTABLE_toCssCustomPropertySyntax,
   Tokens as UNSTABLE_Tokens,

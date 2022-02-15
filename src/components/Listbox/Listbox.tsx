@@ -38,8 +38,10 @@ export interface ListboxProps {
   enableKeyboardControl?: boolean;
   /** Visually hidden text for screen readers */
   accessibilityLabel?: string;
-  /** Callback when an option is selected */
+  /** Callback fired when an option is selected */
   onSelect?(value: string): void;
+  /** Callback when fired when an option becomes active */
+  onActiveOptionChange?(value: string): void;
 }
 
 export type ArrowKeys = 'up' | 'down';
@@ -59,6 +61,7 @@ export function Listbox({
   enableKeyboardControl,
   accessibilityLabel,
   onSelect,
+  onActiveOptionChange,
 }: ListboxProps) {
   const listboxClassName = classNames(styles.Listbox);
   const {
@@ -73,14 +76,13 @@ export function Listbox({
   const [currentActiveOption, setCurrentActiveOption] =
     useState<NavigableOption>();
   const {
-    setActiveOptionId,
-    setListboxId,
     listboxId,
     textFieldLabelId,
-    onOptionSelected,
-    setActiveOptionValue,
-    onKeyToBottom,
     textFieldFocused,
+    setListboxId,
+    setActiveOptionId,
+    onOptionSelected,
+    onKeyToBottom,
   } = useComboboxListbox();
 
   const inCombobox = Boolean(setActiveOptionId);
@@ -129,8 +131,12 @@ export function Listbox({
           return undefined;
         }
       });
+
+      if (onActiveOptionChange && nextOption) {
+        onActiveOptionChange(nextOption.value);
+      }
     },
-    [handleScrollIntoView],
+    [onActiveOptionChange, handleScrollIntoView],
   );
 
   useEffect(() => {
@@ -153,14 +159,8 @@ export function Listbox({
         onOptionSelected();
       }
       if (onSelect) onSelect(option.value);
-      if (setActiveOptionValue) setActiveOptionValue(option.value);
     },
-    [
-      setActiveOptionValue,
-      handleChangeActiveOption,
-      onSelect,
-      onOptionSelected,
-    ],
+    [handleChangeActiveOption, onSelect, onOptionSelected],
   );
 
   const listboxContext = useMemo(
@@ -238,16 +238,10 @@ export function Listbox({
   useEffect(() => {
     if (currentActiveOption) {
       setActiveOptionId!(currentActiveOption.domId);
-      setActiveOptionValue!(currentActiveOption.value);
     } else {
       setInitialActiveOption();
     }
-  }, [
-    currentActiveOption,
-    setActiveOptionId,
-    setInitialActiveOption,
-    setActiveOptionValue,
-  ]);
+  }, [currentActiveOption, setActiveOptionId, setInitialActiveOption]);
 
   function handleArrow(type: ArrowKeys, evt: KeyboardEvent) {
     evt.preventDefault();
@@ -258,10 +252,10 @@ export function Listbox({
 
     const nextOption = {
       domId: nextValidElement.id,
-      value:
-        nextValidElement.getAttribute(LISTBOX_OPTION_VALUE_ATTRIBUTE) || '',
       element: nextValidElement,
       disabled: nextValidElement.getAttribute('aria-disabled') === 'true',
+      value:
+        nextValidElement.getAttribute(LISTBOX_OPTION_VALUE_ATTRIBUTE) || '',
     };
 
     handleChangeActiveOption(nextOption);
