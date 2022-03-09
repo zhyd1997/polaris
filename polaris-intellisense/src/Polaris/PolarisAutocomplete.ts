@@ -1,11 +1,7 @@
-import * as vscode from 'vscode';
-import {allTokens} from '../data/allTokens';
+import vscode from 'vscode';
+import {getCustomPropertyNames} from '../../../utils/custom-properties';
 
 export class PolarisAutocomplete implements vscode.CompletionItemProvider {
-  get allTokens() {
-    return allTokens;
-  }
-
   async provideCompletionItems(
     document: vscode.TextDocument,
     position: vscode.Position,
@@ -13,7 +9,7 @@ export class PolarisAutocomplete implements vscode.CompletionItemProvider {
     context: vscode.CompletionContext,
   ): Promise<vscode.CompletionItem[] | null | undefined> {
     // iterate over all tokens and create completion items
-    let completionItems = allTokens.map((token) => {
+    const completionItems = getCustomPropertyNames().map((token) => {
       const autocompleteValue = `var(${token})`;
       return new vscode.CompletionItem(
         autocompleteValue,

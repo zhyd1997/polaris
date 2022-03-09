@@ -14,10 +14,9 @@
     "onLanguage:css",
     "onLanguage:scss"
   ],
-  "main": "./out/extension.js",
+  "main": "./out/polaris-intellisense/src/extension.js",
   "scripts": {
-    "vscode:prepublish": "yarn run generateTokens && yarn run compile",
-    "generateTokens": "node ../utils/intellisensePrepublish.js",
+    "vscode:prepublish": "yarn run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile && yarn run lint",
