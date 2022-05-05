@@ -29,12 +29,7 @@ const rollupOptions = {
       babelHelpers: 'bundled',
     }),
   ],
-  external: [
-    'vscode',
-    'vscode-languageclient/node',
-    'vscode-languageserver/node',
-    'vscode-languageserver-textdocument',
-  ],
+  external: ['vscode'],
 };
 
 // eslint-disable-next-line import/no-default-export

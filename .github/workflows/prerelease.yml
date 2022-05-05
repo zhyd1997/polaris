@@ -15,13 +15,19 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 7.0.0
+
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: pnpm
 
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: pnpm install
 
       - name: Check if Prerelease is enabled
         id: is_pre_enabled
@@ -31,13 +37,13 @@ jobs:
 
       - name: Enter prerelease mode
         if: steps.is_pre_enabled.outputs.files_exists == 'false'
-        run: yarn changeset pre enter next
+        run: pnpm changeset pre enter next
 
       - name: Create release Pull Request or publish to NPM
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: yarn release
+          publish: pnpm release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

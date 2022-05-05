@@ -107,7 +107,7 @@ To test the changes on a mobile or virtual machine, you will need to open the so
 yarn run build-consumer polaris-styleguide
 ```
 
-2. In your terminal, open a second tab and run `dev up && dev run` from the `polaris-styleguide` repository (or `yarn install && yarn dev` in your consuming project)
+2. In your terminal, open a second tab and run `dev up && dev run` from the `polaris-styleguide` repository (or `pnpm install && yarn dev` in your consuming project)
 
 In the example above, the build is copied to `polaris-styleguide/node_modules/@shopify/polaris`. And in this case, a rebuild of `polaris-styleguide` is required after copying the `polaris-react` build, but may not be the case for all consuming projects.
 
@@ -117,7 +117,7 @@ cd ../polaris-styleguide/
 yarn run build:development
 ```
 
-Also, when running `yarn install`, copied builds will be overwritten and will require running `yarn run build-consumer PROJECT_DIRECTORY` again.
+Also, when running `pnpm install`, copied builds will be overwritten and will require running `yarn run build-consumer PROJECT_DIRECTORY` again.
 
 #### Manual visual regression testing
 
