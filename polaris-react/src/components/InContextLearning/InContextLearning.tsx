@@ -1,24 +1,16 @@
 import React, {useEffect, useRef, useState} from 'react';
-
+import {useInContextLearningSteps} from './hooks';
 import {Step} from './components';
 import {Button} from '../Button';
-
-interface InContextLearningStep {
-  className: string;
-  content: React.ReactNode;
-}
+import type {InContextLearningStep} from './types';
 
 interface Position {
   top: number;
   left: number;
 }
 
-interface Props {
-  children?: React.ReactElement[];
-  steps: InContextLearningStep[];
-}
-
-export function InContextLearning({steps}: Props) {
+export function InContextLearning() {
+  const {steps} = useInContextLearningSteps();
   const hasMultipleSteps = steps.length > 0;
   const [currentStep, setCurrentStep] = useState(0);
   const [currentPosition, setCurrentPosition] = useState<Position | null>(null);
@@ -69,13 +61,12 @@ export function InContextLearning({steps}: Props) {
 }
 
 function updatePosition(step: InContextLearningStep, wrapperHeight?: number) {
-  const {className} = step;
+  const {ref} = step;
   const offsetHeight = wrapperHeight ? wrapperHeight / 3 : 0;
-  const domElement = document.querySelector(className);
-  if (!domElement) {
+  if (!ref) {
     return {top: 0 + offsetHeight, left: 0};
   }
-  const rect = domElement.getBoundingClientRect();
+  const rect = ref.getBoundingClientRect();
   return {top: rect.top + offsetHeight, left: rect.left};
 }
 

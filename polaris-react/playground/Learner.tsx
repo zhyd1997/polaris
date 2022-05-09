@@ -1,31 +1,39 @@
-import React, {useRef} from 'react';
-import {Layout, Page, Card, List, InContextLearning} from '../src';
+import React from 'react';
+import {
+  Layout,
+  Page,
+  Card,
+  List,
+  useInContextLearningSteps,
+  InContextLearning,
+  InContextLearningProvider,
+} from '../src';
 import styles from './Learner.scss';
 
 const LEARNING_STEPS = [
   {
-    className: '.learning-step-one',
-    identifier: '[data-learning-step="one"]',
-    content: <span>Step 1: Testing</span>,
+    ref: null,
+    content: <span>Step 1: 1 × Oasis Glass, 4-Pack</span>,
   },
   {
-    className: '.learning-step-two',
-    content: <span>Step 2: Testing</span>,
+    ref: null,
+    content: <span>Step 2: another piece of content</span>,
   },
   {
-    className: '.learning-step-three',
-    content: <span>Step 3: Testing</span>,
+    ref: null,
+    content: <span>Step 3: a third piece of content</span>,
   },
 ];
 
-export function Learner() {
-  const actionRef = useRef(null);
+export function LearnerContent() {
+  const {updateSteps} = useInContextLearningSteps();
+
   return (
     <div className={styles.Root}>
       <Page narrowWidth>
         <Layout>
           <Layout.Section>
-            <InContextLearning steps={LEARNING_STEPS} />
+            <InContextLearning />
 
             <Card
               title="Shipment 1234"
@@ -34,16 +42,16 @@ export function Learner() {
               ]}
               primaryFooterAction={{
                 content: 'Add tracking number',
-                onAction: (event) => {
-                  console.log(event.currentTarget);
-                  actionRef.current = event.currentTarget;
-                },
               }}
             >
               <Card.Section title="Items">
                 <List>
                   <List.Item>
-                    <span className="learning-step-one">
+                    <span
+                      ref={(ref) => {
+                        updateSteps(0, ref);
+                      }}
+                    >
                       1 × Oasis Glass, 4-Pack
                     </span>
                   </List.Item>
@@ -67,12 +75,20 @@ export function Learner() {
             </Card>
             <Card>
               <Card.Section title="Collections">
-                <span className="learning-step-two">
+                <span
+                  ref={(ref) => {
+                    updateSteps(2, ref);
+                  }}
+                >
                   another piece of content
                 </span>
               </Card.Section>
               <Card.Section title="Tags">
-                <span className="learning-step-three">
+                <span
+                  ref={(ref) => {
+                    updateSteps(1, ref);
+                  }}
+                >
                   a third piece of content
                 </span>
               </Card.Section>
@@ -81,5 +97,13 @@ export function Learner() {
         </Layout>
       </Page>
     </div>
+  );
+}
+
+export function Learner() {
+  return (
+    <InContextLearningProvider steps={LEARNING_STEPS}>
+      <LearnerContent />
+    </InContextLearningProvider>
   );
 }
