@@ -1,5 +1,7 @@
 import React, {useEffect, useState, useLayoutEffect} from 'react';
-import {Layout, Page, Card, List, InContextLearning} from '../src';
+
+import {Button, Layout, Page, Card, List, InContextLearning} from '../src';
+
 import styles from './Learner.scss';
 
 const LEARNING_STEPS = [
@@ -16,10 +18,20 @@ const LEARNING_STEPS = [
 export function Learner() {
   return (
     <div className={styles.Root}>
-      <Page narrowWidth>
+      <Page fullWidth>
         <Layout>
           <Layout.Section>
-            <InContextLearning steps={LEARNING_STEPS} />
+            <InContextLearning>
+              <InContextLearning.Step target=".learning-step-one">
+                <p>Step one content</p>
+              </InContextLearning.Step>
+              <InContextLearning.Step target=".learning-step-two">
+                <p>Step two content</p>
+              </InContextLearning.Step>
+              <InContextLearning.Step target="#learning-step-three">
+                <p>Step three content</p>
+              </InContextLearning.Step>
+            </InContextLearning>
             <Card
               title="Shipment 1234"
               secondaryFooterActions={[
@@ -38,6 +50,7 @@ export function Learner() {
                 </List>
               </Card.Section>
             </Card>
+
             <Card>
               <Card.Section title="Collections">
                 <span className="learning-step-two">
@@ -47,18 +60,19 @@ export function Learner() {
               <Card.Section title="Tags" />
             </Card>
           </Layout.Section>
+
+          <Layout.Section>
+            <Layout>
+              <Layout.Section oneHalf>123 Sesame Street</Layout.Section>
+              <Layout.Section oneHalf>
+                <Button id="learning-step-three" onClick={() => {}}>
+                  Edit address
+                </Button>
+              </Layout.Section>
+            </Layout>
+          </Layout.Section>
         </Layout>
       </Page>
     </div>
   );
-}
-
-function getPreviousStep(currentStep: number, steps: any[]) {
-  if (currentStep === 0) {
-    return steps.length - 1;
-  }
-  if (currentStep === steps.length - 1) {
-    return 0;
-  }
-  return currentStep - 1;
 }
