@@ -1,6 +1,6 @@
 {
   "name": "polaris-for-figma",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "rollup -c",
@@ -26,8 +26,6 @@
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",
-    "@babel/core": "^7.17.5",
-    "@babel/preset-env": "^7.16.11",
     "@types/node": "^17.0.23",
     "rollup-plugin-import-css": "^3.0.3"
   }
