@@ -5,7 +5,7 @@ keywords:
   - contribution guide
 ---
 
-# Thinking in systems
+# Designing with a system
 
 ![Illustration of dozens of chairs of the same kind and a single chair of a diverent kind.](/images/contributing/thinking-in-systems_01.png)
 

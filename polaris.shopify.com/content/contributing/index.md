@@ -7,7 +7,7 @@ keywords:
 
 # Contributing to Polaris
 
-Polaris thrives on contribution and community support. Anyone, regardless of discipline, is encouraged to contribute. No contribution is too small. We welcome everything from bug fixes or new components, to new UX guidelines. So if you find something to contribute, we hope you feel empowered to go for it. The Polaris team is here to help you along the way.
+Polaris exists to make a product worked on by many, feel like it was created by one person. It needs to stay in sync with new solutions so merchants always have a seamless experience. This is why Polaris thrives on contribution and community support. Anyone, regardless of discipline, is encouraged to contribute. No contribution is too small. We welcome everything from bug fixes or new components, to new UX guidelines. So if you find something to contribute, we hope you feel empowered to go for it. The Polaris team is here to help you along the way.
 
 ## Who can contribute
 
@@ -15,7 +15,7 @@ Contribution to Polaris looks different depending on whether or not you work at 
 
 ## When to contribute
 
-Figuring out what and when to contribute is not always simple, especially when deciding between adding something new to the system or going with an existing solution. Check out the [Thinking in systems](/contributing/thinking-in-systems) and [When to evolve the system](/contributing/when-to-evolve-the-system) guides to help you make this decision.
+Figuring out what and when to contribute is not always simple, especially when deciding between adding something new to the system or going with an existing solution. Check out the [Designing with a system](/contributing/designing-with-a-system) and [When to evolve the system](/contributing/when-to-evolve-the-system) guides to help you make this decision.
 
 ## Where to get help
 
