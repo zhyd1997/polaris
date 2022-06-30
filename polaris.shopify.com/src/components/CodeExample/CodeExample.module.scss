@@ -10,7 +10,7 @@
 
   &.minimalist {
     box-shadow: none;
-    background: var(--surface-subdued);
+    box-shadow: 0 0 0 0.5px rgb(0 0 0 / 8%), 0 1px 1.5px rgb(0 0 0 / 10%);
 
     .CopyButton svg {
       filter: brightness(-500%);
@@ -25,6 +25,10 @@
     background: #202021;
     color: #e7e7e7;
   }
+
+  &:hover .CopyButton {
+    opacity: 0.5;
+  }
 }
 
 .CopyButtonWrapper {
@@ -38,8 +42,9 @@
   position: absolute;
   padding: 0.5rem;
   background: transparent;
-  opacity: 0.5;
+  opacity: 0;
   border-radius: var(--border-radius-200);
+  transition: opacity 0.1s linear;
 
   svg {
     width: 16px;
@@ -60,15 +65,14 @@
   font-family: "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono",
     Menlo, Consolas, monospace;
   white-space: pre;
-  padding: 0.5rem 0.66rem;
-  font-size: 14px;
-  line-height: 1.6;
+  padding: 0.4rem 0.5rem;
+  font-size: 13px;
+  line-height: 1.5;
   overflow: auto;
 }
 
 .CodeExample.minimalist .Code {
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: var(--font-size-50);
 }
 
 .LineNumber {

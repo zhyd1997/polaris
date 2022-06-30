@@ -102,9 +102,11 @@ function IconsPage() {
   return (
     <Container className={styles.IconsPage}>
       <PageMeta title={pageTitle} />
-      <h1>Icons</h1>
+
       <div className={!useModal ? styles.SplitLayout : ""}>
         <div className={styles.IconGrids}>
+          <h1>Icons</h1>
+
           <SearchField
             value={searchText}
             onChange={(value) => handleSearchChange(value)}

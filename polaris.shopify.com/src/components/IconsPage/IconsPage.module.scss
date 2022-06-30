@@ -3,10 +3,9 @@
 @import "../../styles/mixins.scss";
 
 .IconsPage {
-  padding-top: var(--header-margin);
-
   h1 {
     @include heading-1;
+    margin-top: var(--header-margin);
     margin-bottom: 1.5rem;
   }
 }
@@ -14,14 +13,16 @@
 .SplitLayout {
   display: grid;
   gap: 3rem;
-  grid-template-columns: 1fr 22.5rem;
+  grid-template-columns: 1fr 22rem;
 }
 
 .SidebarCard {
   position: sticky;
-  top: 2rem;
-  border-radius: 32px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  top: 0;
+  padding-top: var(--header-margin);
+  padding-left: 2rem;
+  border-left: 1px solid var(--border-color-light);
+  min-height: calc(100vh - var(--header-height));
 
   @include dark-mode {
     box-shadow: var(--card-shadow);

@@ -4,6 +4,10 @@ import Image from "../Image";
 import CodeExample from "../CodeExample";
 import styles from "./IconDetails.module.scss";
 
+function capitalizeFirstLetter(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 interface Props {
   fileName: string;
   name: string;
@@ -23,31 +27,32 @@ function IconDetails({
 }: Props) {
   return (
     <>
-      <div className={className(styles.SidebarSection, styles.IconInfo)}>
-        <div className={styles.Preview}>
-          <div className={styles.PreviewImage}>
-            <Image
-              src={`/icons/${fileName}.svg`}
-              alt={description}
-              width={60}
-              height={60}
-              icon
-            />
-          </div>
+      <div className={styles.Preview}>
+        <div className={styles.PreviewImage}>
+          <Image
+            src={`/icons/${fileName}.svg`}
+            alt={description}
+            width={44}
+            height={44}
+            icon
+          />
         </div>
+      </div>
 
+      <div className={className(styles.SidebarSection, styles.IconInfo)}>
         <h2 className={styles.Title}>
           {/* {isInModal && (
             <Dialog.Title>{name}</Dialog.Title>
           ) */}
-          {name} <div className={styles.IconSet}>{set}</div>
+          {capitalizeFirstLetter(name)}{" "}
+          <div className={styles.IconSet}>{capitalizeFirstLetter(set)}</div>
         </h2>
 
         {description !== "N/A" && (
-          <p className={styles.IconDescription}>{description}</p>
+          <p className={styles.IconDescription}>{description} </p>
         )}
 
-        <div className={styles.Keywords}>
+        <p className={styles.Keywords}>
           {keywords
             .filter((keyword) => keyword !== "N/A")
             .map((keyword) => {
@@ -57,11 +62,11 @@ function IconDetails({
                   href={{ query: { icon: fileName, q: keyword } }}
                   scroll={false}
                 >
-                  {keyword}
+                  {capitalizeFirstLetter(keyword)}
                 </Link>
               );
             })}
-        </div>
+        </p>
 
         <div className={styles.ActionButtons}>
           <a
@@ -69,7 +74,7 @@ function IconDetails({
             href={`/icons/${fileName}.svg`}
             download
           >
-            Download SVG
+            Download
           </a>
         </div>
       </div>
@@ -87,37 +92,45 @@ function IconDetails({
 
       <div className={styles.SidebarSection}>
         <h3 className={styles.Subtitle}>React</h3>
-        <p className={styles.SmallParagraph}>
-          Import the icon from{" "}
-          <a href="https:www.npmjs.com/package/@shopify/polaris-icons#usage">
-            polaris-icons
-          </a>
-          :
-        </p>
 
-        <div className={styles.CodeExampleWrapper}>
-          <CodeExample language="typescript" minimalist>
-            {`import {
+        <div className={styles.ReactStep}>
+          <p className={styles.SmallParagraph}>
+            <span className={styles.StepDigit}>1</span> Import the icon from{" "}
+            <a href="https:www.npmjs.com/package/@shopify/polaris-icons#usage">
+              polaris-icons
+            </a>
+            :
+          </p>
+
+          <div className={styles.CodeExampleWrapper}>
+            <CodeExample language="typescript" minimalist>
+              {`import {
   ${fileName}
 } from '@shopify/polaris-icons';`}
-          </CodeExample>
+            </CodeExample>
+          </div>
         </div>
 
-        <p className={styles.SmallParagraph}>
-          Then render it using the{" "}
-          <a href="https:polaris.shopify.com/components/icon">icon component</a>
-          :
-        </p>
+        <div className={styles.ReactStep}>
+          <p className={styles.SmallParagraph}>
+            <span className={styles.StepDigit}>2</span> Then render it using the{" "}
+            <a href="https:polaris.shopify.com/components/icon">
+              icon component
+            </a>
+            :
+          </p>
 
-        <div className={styles.CodeExampleWrapper}>
-          <CodeExample language="typescript" minimalist>
-            {`<Icon
+          <div className={styles.CodeExampleWrapper}>
+            <CodeExample language="typescript" minimalist>
+              {`<Icon
   source={${fileName}}
   color="base"
 />`}
-          </CodeExample>
+            </CodeExample>
+          </div>
         </div>
       </div>
+
       <div className={styles.SidebarSection}>
         <div className={styles.ProposeChange}>
           <Link
