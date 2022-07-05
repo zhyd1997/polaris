@@ -125,6 +125,7 @@ video {
 
 html {
   font-size: 106.25%;
+  overflow-y: overlay;
 
   @media screen and (max-width: $breakpointMobile) {
     font-size: 100%;
