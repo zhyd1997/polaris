@@ -16,7 +16,7 @@ export interface SubheadingProps {
 /**
  * @deprecated The Subheading component will be removed in the next
  * major version. Use the Text componant instead. See the
- * Polaris componant guide on how to use Text.
+ * Polaris component guide on how to use Text.
  *
  * https://polaris.shopify.com/components/text
  */
