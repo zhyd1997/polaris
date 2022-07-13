@@ -2,6 +2,7 @@ import React from 'react';
 
 import {classNames} from '../../../../utilities/css';
 import {buttonsFrom} from '../../../Button';
+// eslint-disable-next-line import/no-deprecated
 import {TextStyle} from '../../../TextStyle';
 import {useMediaQuery} from '../../../../utilities/media-query';
 import {useI18n} from '../../../../utilities/i18n';
